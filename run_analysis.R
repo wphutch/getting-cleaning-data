@@ -6,8 +6,9 @@
 #  Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). 
 #  Vitoria-Gasteiz, Spain. Dec 2012
 #
-# Get working directory.  We will need to reset it twice.
+# Load dplyr and get working directory.  We will need to reset it twice.
 #
+library(dplyr)
 wd<-getwd()
 # 
 # read activity labels and features from parent directory.
@@ -29,7 +30,7 @@ y_test <- read.table("y_test.txt")
 #
 setwd(wd)
 setwd("train")
-subject.train <- read.table("subject_train.txt")
+subject_train <- read.table("subject_train.txt")
 x_train <- read.table("X_train.txt")
 y_train <- read.table("y_train.txt")
 # 
@@ -104,6 +105,7 @@ final_set <- merge(activity_subject, x_narrow, by.x = "id", by.y = "id")
 tidy_set<-final_set %>%
   group_by(subject_id, activity_desc) %>%
   summarise_at(vars(one_of(x_metrics)), mean)
+write.table(tidy_set, "tidy_set.txt", row.names = FALSE)
 #
 # done
 #

@@ -407,8 +407,9 @@ The x, y, and subject tables are in the same order, but they do not have a commo
 Then we save the names of the metrics we saved into <em>x-metrics</em>. We will need these when we compute our aggregates later. We then cbind <em>id</em> to <em>x_narrow</em>. Now we have a column <em>id</em> as part of <em>x_narrow</em>, <em>y_tot</em>, and <em>subject_tot</em> that we can use for merging. We merge the activity labels onto y_tot to give us mnemonic names for all activities. We join on <em>activity_id</em> in <em>y_tot</em> and <em>activity_cd</em> in <em>activity_labels</em> and store the result in <em>activity</em>.<br />
 We take <em>activity</em> and merge it with <em>y_tot</em> using the column <em>id</em> in both objects and store the result in <em>activity_subject</em>.<br />
 We then take <em>activity_subject</em> and merge it with <em>x_narrow</em> using the column <em>id</em> in both objects and store the result in <em>final_set</em>.<br />
-Finally, we construct the set we were asked to construct, <em>tidy_set</em>. We construct this by piping <em>final set</em> through the group by function to group by <em>activity_desc</em>, and <em>subject_id</em>, namely the descriptions of the activities and the id’s of the subjects. We pipe the result through summmarise_at because we can tell it to calculate the mean of the data on all the metrics we saved earlier in <em>x_metrics</em> in one statement.<br />
-`</p>
+We construct the set we were asked to construct, <em>tidy_set</em>. We construct this by piping <em>final set</em> through the group by function to group by <em>activity_desc</em>, and <em>subject_id</em>, namely the descriptions of the activities and the id’s of the subjects. We pipe the result through summmarise_at because we can tell it to calculate the mean of the data on all the metrics we saved earlier in <em>x_metrics</em> in one statement.<br />
+Finally, we write out <em>tidy_set</em>.</p>
+<p>`</p>
 </div>
 
 

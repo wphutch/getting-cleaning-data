@@ -48,5 +48,7 @@ We then cbind *id* to *x_narrow*.  Now we have a column *id* as part of *x_narro
 We merge the activity labels onto y_tot to give us mnemonic names for all activities.  We join on *activity_id* in *y_tot* and *activity_cd* in *activity_labels* and store the result in *activity*.  
 We take *activity* and merge it with *y_tot* using the column *id* in both objects and store the result in *activity_subject*.  
 We then take *activity_subject* and merge it with *x_narrow* using the column *id* in both objects and store the result in *final_set*.  
-Finally, we construct the set we were asked to construct, *tidy_set*.  We construct this by piping *final set* through the group by function to group by *activity_desc*, and *subject_id*, namely the descriptions of the activities and the id's of the subjects.  We pipe the result through summmarise_at because we can tell it to calculate the mean of the data on all the metrics we saved earlier in *x_metrics* in one statement.  
+We construct the set we were asked to construct, *tidy_set*.  We construct this by piping *final set* through the group by function to group by *activity_desc*, and *subject_id*, namely the descriptions of the activities and the id's of the subjects.  We pipe the result through summmarise_at because we can tell it to calculate the mean of the data on all the metrics we saved earlier in *x_metrics* in one statement.  
+Finally, we write out *tidy_set*.
+
 `

@@ -1,0 +1,52 @@
+---
+title: "Getting and cleaning data code book"
+author: "William Hutchinson"
+date: "6/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Header
+
+This code book explains the functioning of run_analysis.R, which is also in this repository.  
+Authors' acknowledgement:
+
+[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+
+This is submitted as part of the class on getting and cleaning data for Coursers's data science curriculum.
+
+# Program flow
+
+First we read in all the data.  It is assumed the user has set the working directory to the parent directory where the data sets have been loaded.  We read in all data sets one after the other.  Then we start work
+
+From the parent directory we populate the following
+
+- *activity* which contains the labels of the kinds of activity  
+- *features* which contains the list of metrics we will use.  This will need cleaning  
+
+Then we move to the *test* directory and populate the following
+
+- *subject_test* which contains the list of subjects whose data went into the test sample  
+- *x_test* which contains the metrics gathered from the subjects in the test group  
+- *y_test* which contains the activities these subjects undertook  
+
+We then move to the *train* directory and populate the following
+
+- *subject_train* which contains the list of subjects whose data went into the training sample  
+- *x_train* which contains the metrics gathered from the subjects in the training group  
+- *y_train* which contains the activities the training subjects.  I indicate this by using the suffix *tot* instead of *test* or *train*.  *x_tot*, *y_tot*, and *subject_tot* are created with the rbind function, taking care to put the training set before the test set in all three cases.
+ 
+ We take the variables from *features* and use them as the names for *x_tot*.  Also, the list of features has duplicates.  R does not like columns with duplicate names.  it also does not like columns with parentheses in the names.  We use the gsub function twice to eliminate the right and left parentheses.  We paste the sequece number onto the end of the result to give us unique bue mnemonic names.  We assign these to *names(x_tot)*.
+ Next, we give mnemonic names to the activity id's, activity labels, and subject id's.  *activity_desc* is the name for the description of the activity.  
+The x, y, and subject tables are in the same order, but they do not have a common field to merge them with.  We create a common field with consequetive integers and store it in a vector called *id*.  I then cbind *id* to *y_tot* and *subject_tot*.  
+*x_tot* stores many more measurements than we need.  We'll use the select statement to save only the columns we need.  We save the result in *x_narrow*.  
+Then we save the names of the metrics we saved into *x-metrics*.  We will need these when we compute our aggregates later.
+We then cbind *id* to *x_narrow*.  Now we have a column *id* as part of *x_narrow*, *y_tot*, and *subject_tot* that we can use for merging.
+We merge the activity labels onto y_tot to give us mnemonic names for all activities.  We join on *activity_id* in *y_tot* and *activity_cd* in *activity_labels* and store the result in *activity*.  
+We take *activity* and merge it with *y_tot* using the column *id* in both objects and store the result in *activity_subject*.  
+We then take *activity_subject* and merge it with *x_narrow* using the column *id* in both objects and store the result in *final_set*.  
+Finally, we construct the set we were asked to construct, *tidy_set*.  We construct this by piping *final set* through the group by function to group by *activity_desc*, and *subject_id*, namely the descriptions of the activities and the id's of the subjects.  We pipe the result through summmarise_at because we can tell it to calculate the mean of the data on all the metrics we saved earlier in *x_metrics* in one statement.  
+`
